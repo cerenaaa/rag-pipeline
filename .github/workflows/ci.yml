@@ -1,9 +1,5 @@
 name: CI
-"on":
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -11,7 +7,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
       - run: pip install sentence-transformers numpy pytest
-      - run: python -c "from pipeline.chunker import RecursiveChunker; c=RecursiveChunker(); r=c.chunk('Hello world. Test.',  'd0'); assert len(r)>0; print('chunker OK')"
+      - run: python -c "from pipeline.chunker import RecursiveChunker; c=RecursiveChunker(); r=c.chunk('Hello world. This is a test.', 'd0'); assert len(r)>0; print('chunker OK')"
       - run: python -c "from data.synthetic_corpus import generate_corpus; d=generate_corpus(10); assert len(d)==10; print('corpus OK')"
